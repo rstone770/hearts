@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Hearts - Dev Server</title>
+        <%= htmlWebpackPlugin.tags.headTags %>
+    </head>
+    <body>
+        <div id="widget"></div>
+        <%= htmlWebpackPlugin.tags.bodyTags %>
+        <script>
+            Hearts.mount(document.getElementById("widget"));
+        </script>
+    </body>
+</html>

@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+        /* Basic Options */
+        "baseUrl": ".",
+        "incremental": true,
+        "target": "ES6",
+        "isolatedModules": true,
+
+        /* Strict Type-Checking Options */
+        "strict": true,
+
+        /* Additional Checks */
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+
+        /* Advanced Options */
+        "esModuleInterop": false,
+        "forceConsistentCasingInFileNames": true
+    },
+    "exclude": [".yarn/**/*", "**/__tests__/**/*"],
+    "typeAcquisition": {
+        "enable": true
+    }
+}

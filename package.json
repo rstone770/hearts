@@ -1,0 +1,33 @@
+{
+    "name": "hearts",
+    "version": "0.0.1",
+    "description": "Heart perlin field toy.",
+    "main": "dist/hearts.js",
+    "author": "brenden snyder",
+    "license": "MIT",
+    "scripts": {
+        "build": "webpack --mode=production",
+        "pretty": "pretty-quick",
+        "start": "webpack-dev-server"
+    },
+    "devDependencies": {
+        "css-loader": "^3.6.0",
+        "html-webpack-plugin": "^4.3.0",
+        "husky": "^4.2.5",
+        "prettier": "^2.0.5",
+        "pretty-quick": "^2.0.1",
+        "sass": "^1.26.9",
+        "sass-loader": "^9.0.1",
+        "style-loader": "^1.2.1",
+        "ts-loader": "^7.0.5",
+        "typescript": "^3.9.6",
+        "webpack": "^4.43.0",
+        "webpack-cli": "^3.3.12",
+        "webpack-dev-server": "^3.11.0"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "pretty-quick --staged"
+        }
+    }
+}
