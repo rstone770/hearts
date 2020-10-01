@@ -16,11 +16,8 @@
         "noFallthroughCasesInSwitch": true,
 
         /* Advanced Options */
-        "esModuleInterop": false,
+        "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true
     },
-    "exclude": [".yarn/**/*", "**/__tests__/**/*"],
-    "typeAcquisition": {
-        "enable": true
-    }
+    "exclude": [".yarn/**/*", "**/__tests__/**/*"]
 }

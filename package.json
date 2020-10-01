@@ -8,17 +8,22 @@
     "scripts": {
         "build": "webpack --mode=production",
         "pretty": "pretty-quick",
-        "start": "webpack-dev-server"
+        "start": "webpack-dev-server",
+        "test": "jest",
+        "test:start": "jest --watch"
     },
     "devDependencies": {
+        "@types/jest": "^26.0.14",
         "css-loader": "^3.6.0",
         "html-webpack-plugin": "^4.3.0",
         "husky": "^4.2.5",
+        "jest": "^26.4.2",
         "prettier": "^2.0.5",
         "pretty-quick": "^2.0.1",
         "sass": "^1.26.9",
         "sass-loader": "^9.0.1",
         "style-loader": "^1.2.1",
+        "ts-jest": "^26.4.1",
         "ts-loader": "^7.0.5",
         "typescript": "^3.9.6",
         "webpack": "^4.43.0",
