@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
+const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 
 const HOT_TEMPLATE_FILENAME = path.resolve(__dirname, "webpack/index.html");
 const INPUT_FILENAME = path.resolve(__dirname, "source/main.ts");
@@ -62,7 +63,8 @@ module.exports = (env, argv) => {
             ]
         },
         resolve: {
-            extensions: [".ts", ".js"]
+            extensions: [".ts", ".js"],
+            plugins: [new TsconfigPathsPlugin()]
         },
         output: {
             filename: OUTPUT_FILENAME,

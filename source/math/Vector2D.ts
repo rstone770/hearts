@@ -1,4 +1,9 @@
-export class Vector2D {
+export interface Vector2DLiteral {
+    x: number;
+    y: number;
+}
+
+export class Vector2D implements Vector2DLiteral {
     public x: number;
     public y: number;
 

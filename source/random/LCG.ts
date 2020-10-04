@@ -20,6 +20,6 @@ export class LCG implements Random {
         this.state += INCREMENT;
         this.state %= MODULUS;
 
-        return (this.state / MODULUS) >>> 0;
+        return (this.state >>> 0) / MODULUS;
     }
 }
