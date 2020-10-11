@@ -1,4 +1,4 @@
-import { Random } from "./Random";
+import { RandomNumberFunction, RandomNumerGenerator } from "./Random";
 
 // numerical recipes values
 // https://en.wikipedia.org/wiki/Linear_congruential_generator#Parameters_in_common_use
@@ -6,9 +6,11 @@ const MODULUS = 0x100000000;
 const MULTIPLIER = 0x19660d;
 const INCREMENT = 0x3c6ef35f;
 
-export class LCG implements Random {
+export class LCG implements RandomNumerGenerator {
     private state: number;
     public readonly seed: number;
+
+    public static readonly default = new LCG(1337);
 
     public constructor(seed?: number) {
         this.seed = seed ?? Date.now();
@@ -23,3 +25,5 @@ export class LCG implements Random {
         return (this.state >>> 0) / MODULUS;
     }
 }
+
+export const random: RandomNumberFunction = () => LCG.default.next();
