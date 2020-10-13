@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const HOT_TEMPLATE_FILENAME = path.resolve(__dirname, "webpack/index.html");
 const INPUT_FILENAME = path.resolve(__dirname, "source/main.ts");
@@ -22,6 +23,56 @@ const createCssIdFormat = (mode) => {
 module.exports = (env, argv) => {
     const mode = argv.mode;
 
+    const plugins = () => {
+        const results = [
+            new MiniCssExtractPlugin({
+                filename: "[name].css"
+            })
+        ];
+
+        if (isDevelopment(mode)) {
+            results.push(
+                new HtmlWebpackPlugin({
+                    inject: false,
+                    template: HOT_TEMPLATE_FILENAME
+                })
+            );
+        }
+
+        return results;
+    };
+
+    const mscss = () => {
+        const results = [];
+
+        if (isDevelopment(mode)) {
+            results.push({ loader: "style-loader" });
+        } else {
+            results.push({ loader: MiniCssExtractPlugin.loader });
+        }
+
+        results.push(
+            {
+                loader: "css-loader",
+                options: {
+                    modules: {
+                        mode: "local",
+                        localIdentName: createCssIdFormat(mode)
+                    },
+                    sourceMap: isDevelopment(mode)
+                }
+            },
+            {
+                loader: "sass-loader",
+                options: {
+                    sourceMap: isDevelopment(mode)
+                }
+            }
+        );
+
+        return results;
+    };
+
     return {
         entry: INPUT_FILENAME,
         module: {
@@ -40,25 +91,7 @@ module.exports = (env, argv) => {
                 },
                 {
                     test: /\.m\.scss$/,
-                    use: [
-                        { loader: "style-loader" },
-                        {
-                            loader: "css-loader",
-                            options: {
-                                modules: {
-                                    mode: "local",
-                                    localIdentName: createCssIdFormat(mode)
-                                },
-                                sourceMap: isDevelopment(mode)
-                            }
-                        },
-                        {
-                            loader: "sass-loader",
-                            options: {
-                                sourceMap: isDevelopment(mode)
-                            }
-                        }
-                    ]
+                    use: mscss()
                 }
             ]
         },
@@ -71,12 +104,7 @@ module.exports = (env, argv) => {
             path: OUTPUT_PATH,
             library: "Hearts"
         },
-        plugins: [
-            new HtmlWebpackPlugin({
-                inject: false,
-                template: HOT_TEMPLATE_FILENAME
-            })
-        ],
+        plugins: plugins(),
         devServer: {
             contentBase: OUTPUT_PATH,
             hot: true,
