@@ -1,0 +1,49 @@
+$hearts-primary-color: #fe7f2d;
+$hearts-primary-hover: rgba($hearts-primary-color, 0.25);
+
+.Hearts {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 12px;
+    color: $hearts-primary-color;
+    stroke: $hearts-primary-color;
+    font-family: sans-serif;
+}
+
+.controls {
+    z-index: 100;
+    text-align: center;
+}
+
+.likes {
+    display: inline-block;
+    padding-bottom: 6px;
+}
+
+.like {
+    display: flex;
+    box-sizing: border-box;
+    padding: 12px;
+    margin: 0;
+    outline: 0;
+    cursor: pointer;
+    border: 0;
+    border-radius: 50%;
+    background-color: white;
+    box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.25);
+    transition: background-color 350ms ease-in;
+
+    &:hover {
+        background-color: $hearts-primary-hover;
+    }
+}
+
+.canvas {
+    position: absolute;
+    pointer-events: none;
+    bottom: 0;
+    right: 0;
+    height: 70vh;
+    width: 50vw;
+}

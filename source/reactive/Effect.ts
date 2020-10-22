@@ -13,6 +13,18 @@ export class Effect {
         this.effect = effect;
     }
 
+    public static create(apply: () => void, dispose?: () => void) {
+        return new Effect(() => {
+            apply();
+
+            return () => {
+                if (dispose != null) {
+                    dispose();
+                }
+            };
+        });
+    }
+
     public apply() {
         if (!this.active) {
             const disposer = this.effect();
