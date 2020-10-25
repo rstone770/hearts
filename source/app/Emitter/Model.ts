@@ -1,5 +1,6 @@
 import { NoiseGenerator3D } from "@hearts/noise/Noise";
 import { RandomNumberGenerator } from "@hearts/random/Random";
+import { Scheduler, scheduleRandom } from "@hearts/scheduling/schedule";
 
 const PI1_4 = Math.PI / 4;
 const NOISE_Z_STEP = 0.005;
@@ -28,14 +29,17 @@ export class Model {
     public state: ModelState;
     public noise: NoiseGenerator3D;
     public random: RandomNumberGenerator;
+    public scheduler: Scheduler;
 
     public constructor(
         noise: NoiseGenerator3D,
         random: RandomNumberGenerator,
+        scheduler: Scheduler,
         state?: Partial<ModelState>
     ) {
         this.noise = noise;
         this.random = random;
+        this.scheduler = scheduler;
         this.state = { ...DEFAULT_STATE, ...state };
     }
 
@@ -46,6 +50,12 @@ export class Model {
             z: this.random.next() * PARTICLE_Z_VARIANCE,
             o: this.random.next() * PARTICLE_OFFSET_VARIANCE - PARTICLE_OFFSET_VARIANCE / 2,
             velocity: this.random.next() * PARTICLE_VELOCITY_VARIANCE + PARTICLE_VELOCITY_BASIS
+        });
+    }
+
+    public emitRandom() {
+        scheduleRandom(this.random, this.scheduler, () => {
+            this.emit();
         });
     }
 

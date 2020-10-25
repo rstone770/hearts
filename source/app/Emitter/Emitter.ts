@@ -1,6 +1,7 @@
 import { DomHelpers } from "@hearts/dom/DomHelpers";
 import { imageFromSVGPath } from "@hearts/dom/images";
 import { Effect } from "@hearts/reactive/Effect";
+import { FrameScheduler } from "@hearts/scheduling/frame";
 import { heart } from "../icons";
 import { Model } from "./Model";
 
@@ -9,14 +10,21 @@ const DRAW_Y_BASIS = -36;
 
 export class Emitter {
     private running: boolean = false;
+    private readonly binding: Effect;
     private readonly canvas: HTMLCanvasElement;
     private readonly context: CanvasRenderingContext2D | null;
-    private readonly binding: Effect;
+    private readonly frame: FrameScheduler;
     private readonly icon: HTMLImageElement;
     private readonly model: Model;
 
-    public constructor($: DomHelpers, model: Model, canvas: HTMLCanvasElement) {
+    public constructor(
+        $: DomHelpers,
+        frame: FrameScheduler,
+        model: Model,
+        canvas: HTMLCanvasElement
+    ) {
         this.canvas = canvas;
+        this.frame = frame;
         this.icon = imageFromSVGPath($, heart.fill);
         this.context = this.canvas.getContext("2d");
         this.binding = this.bind();
@@ -52,17 +60,17 @@ export class Emitter {
             const step = () => {
                 this.model.step();
                 this.update();
-                requestAnimationFrame(step);
             };
 
-            step();
+            this.running = true;
+            this.frame(step, () => !this.running);
+            this.model.emitRandom();
         }
-
-        this.running = true;
     }
 
     private stop() {
         this.running = false;
+        this.model.clear();
     }
 
     private update() {
