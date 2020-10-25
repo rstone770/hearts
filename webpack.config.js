@@ -107,7 +107,7 @@ module.exports = (env, argv) => {
         plugins: plugins(),
         devServer: {
             contentBase: OUTPUT_PATH,
-            hot: true,
+            injectClient: false, // webpack-dev-server /w webpack 5 broke library exports.
             open: true
         }
     };
