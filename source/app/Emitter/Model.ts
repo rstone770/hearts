@@ -4,9 +4,9 @@ import { RandomNumberGenerator } from "@hearts/random/Random";
 const PI1_4 = Math.PI / 4;
 const NOISE_Z_STEP = 0.005;
 const PARTICLE_Z_VARIANCE = 0.5;
-const PARTICLE_VELOCITY_VARIANCE = 0.007;
-const PARTICLE_VELOCITY_BASIS = 0.0075;
-const PARTICLE_OFFSET_VARIANCE = 10;
+const PARTICLE_VELOCITY_VARIANCE = 0.01;
+const PARTICLE_VELOCITY_BASIS = 0.003125;
+const PARTICLE_OFFSET_VARIANCE = 0.125;
 
 interface Particle {
     x: number;
