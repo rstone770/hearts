@@ -1,14 +1,8 @@
-import { doc } from "prettier";
-import { App } from "./app/App";
-import { DomHelpers } from "./dom/DomHelpers";
-import { noise, PerlinNoise3D } from "./noise/PerlinNoise3D";
-import { LCG, random } from "./random/LCG";
+import { configure } from "./app/services";
 
-export const mount = ($container: HTMLElement) => {
-    const $ = new DomHelpers(document);
-    const noise = PerlinNoise3D.default;
-    const random = LCG.default;
-    const app = new App(new DomHelpers(document), noise, random, $container);
+export const mount = (container: HTMLElement) => {
+    const factory = configure(document);
+    const app = factory(container);
 
     return app.mount();
 };

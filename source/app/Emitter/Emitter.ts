@@ -1,7 +1,5 @@
 import { DomHelpers } from "@hearts/dom/DomHelpers";
 import { imageFromSVGPath } from "@hearts/dom/images";
-import { NoiseFunction3D, NoiseGenerator3D } from "@hearts/noise/Noise";
-import { RandomNumberFunction, RandomNumberGenerator } from "@hearts/random/Random";
 import { Effect } from "@hearts/reactive/Effect";
 import { heart } from "../icons";
 import { Model } from "./Model";
@@ -17,17 +15,12 @@ export class Emitter {
     private readonly icon: HTMLImageElement;
     private readonly model: Model;
 
-    public constructor(
-        $: DomHelpers,
-        noise: NoiseGenerator3D,
-        random: RandomNumberGenerator,
-        canvas: HTMLCanvasElement
-    ) {
+    public constructor($: DomHelpers, model: Model, canvas: HTMLCanvasElement) {
         this.canvas = canvas;
         this.icon = imageFromSVGPath($, heart.fill);
         this.context = this.canvas.getContext("2d");
         this.binding = this.bind();
-        this.model = new Model(noise, random);
+        this.model = model;
     }
 
     public emit() {

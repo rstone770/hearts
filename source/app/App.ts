@@ -1,6 +1,4 @@
 import { DomHelpers } from "@hearts/dom/DomHelpers";
-import { NoiseGenerator3D } from "@hearts/noise/Noise";
-import { RandomNumberGenerator } from "@hearts/random/Random";
 import { Effect } from "@hearts/reactive/Effect";
 import { Emitter } from "./Emitter/Emitter";
 import { Model, ModelState } from "./Model";
@@ -15,15 +13,14 @@ export class App {
 
     public constructor(
         $: DomHelpers,
-        noise: NoiseGenerator3D,
-        random: RandomNumberGenerator,
+        emitterFactory: (canvas: HTMLCanvasElement) => Emitter,
         container: HTMLElement
     ) {
         this.container = container;
         this.binding = this.bind();
         this.model = new Model();
         this.view = template($);
-        this.emitter = new Emitter($, noise, random, this.view.canvas);
+        this.emitter = emitterFactory(this.view.canvas);
     }
 
     public mount() {
