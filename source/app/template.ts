@@ -15,11 +15,11 @@ const TEMPLATE = `
 `;
 
 export interface View {
-    $$: (selector: string) => Element | null;
-    $root: HTMLElement;
-    $canvas: HTMLCanvasElement;
-    $like: HTMLElement;
-    $likes: HTMLElement;
+    $: (selector: string) => Element | null;
+    root: HTMLElement;
+    canvas: HTMLCanvasElement;
+    like: HTMLElement;
+    likes: HTMLElement;
 }
 
 export const template = ($: DomHelpers): View => {
@@ -27,10 +27,10 @@ export const template = ($: DomHelpers): View => {
     const $$ = (selector: string) => $root.querySelector(selector);
 
     return {
-        $$,
-        $root: $root as HTMLElement,
-        $canvas: $$('[data-id="canvas"]') as HTMLCanvasElement,
-        $like: $$('[data-id="like"]') as HTMLElement,
-        $likes: $$('[data-id="likes"]') as HTMLElement
+        $: $$,
+        root: $root as HTMLElement,
+        canvas: $$('[data-id="canvas"]') as HTMLCanvasElement,
+        like: $$('[data-id="like"]') as HTMLElement,
+        likes: $$('[data-id="likes"]') as HTMLElement
     };
 };

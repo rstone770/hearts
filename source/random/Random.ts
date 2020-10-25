@@ -1,5 +1,5 @@
 export type RandomNumberFunction = () => number;
 
-export interface RandomNumerGenerator {
+export interface RandomNumberGenerator {
     next: RandomNumberFunction;
 }

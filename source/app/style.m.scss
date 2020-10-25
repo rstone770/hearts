@@ -1,5 +1,5 @@
 $hearts-primary-color: #fe7f2d;
-$hearts-primary-hover: rgba($hearts-primary-color, 0.25);
+$hearts-primary-hover-color: rgba($hearts-primary-color, 0.25);
 
 .Hearts {
     position: fixed;
@@ -7,7 +7,7 @@ $hearts-primary-hover: rgba($hearts-primary-color, 0.25);
     right: 0;
     margin: 12px;
     color: $hearts-primary-color;
-    stroke: $hearts-primary-color;
+
     font-family: sans-serif;
 }
 
@@ -31,11 +31,12 @@ $hearts-primary-hover: rgba($hearts-primary-color, 0.25);
     border: 0;
     border-radius: 50%;
     background-color: white;
+    stroke: $hearts-primary-color;
     box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.25);
     transition: background-color 350ms ease-in;
 
     &:hover {
-        background-color: $hearts-primary-hover;
+        background-color: $hearts-primary-hover-color;
     }
 }
 
@@ -46,4 +47,9 @@ $hearts-primary-hover: rgba($hearts-primary-color, 0.25);
     right: 0;
     height: 70vh;
     width: 50vw;
+}
+
+:export {
+    heartsPrimaryColor: $hearts-primary-color;
+    heartsPrimaryHoverColor: $hearts-primary-hover-color;
 }

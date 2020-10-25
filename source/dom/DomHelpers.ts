@@ -1,14 +1,18 @@
 export class DomHelpers {
-    public document: Document;
+    private document: Document;
 
     public constructor(document: Document) {
         this.document = document;
     }
 
-    public html(source: string): Element {
-        const $container = this.document.createElement("div");
+    public element<K extends keyof HTMLElementTagNameMap>(tag: K): HTMLElementTagNameMap[K] {
+        return this.document.createElement(tag);
+    }
+
+    public html<T extends Element = Element>(source: string): T {
+        const $container = this.element("div");
         $container.innerHTML = source;
 
-        return $container.firstElementChild ?? $container;
+        return ($container.firstElementChild ?? $container) as T;
     }
 }
