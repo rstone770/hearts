@@ -1,15 +1,18 @@
 import { NoiseGenerator3D } from "@hearts/noise/Noise";
 import { RandomNumberGenerator } from "@hearts/random/Random";
 
+const PI1_4 = Math.PI / 4;
 const NOISE_Z_STEP = 0.005;
-const PARTICLE_TIME_MULTIPLIER = 0.5;
-const PARTICLE_VELOCITY_MULTIPLIER = 0.007;
+const PARTICLE_Z_VARIANCE = 0.5;
+const PARTICLE_VELOCITY_VARIANCE = 0.007;
 const PARTICLE_VELOCITY_BASIS = 0.0075;
+const PARTICLE_OFFSET_VARIANCE = 10;
 
 interface Particle {
     x: number;
     y: number;
-    time: number;
+    o: number;
+    z: number;
     velocity: number;
 }
 
@@ -40,24 +43,27 @@ export class Model {
         this.state.particles.push({
             x: 1,
             y: 1,
-            time: this.random.next() * PARTICLE_TIME_MULTIPLIER,
-            velocity: this.random.next() * PARTICLE_VELOCITY_MULTIPLIER + PARTICLE_VELOCITY_BASIS
+            z: this.random.next() * PARTICLE_Z_VARIANCE,
+            o: this.random.next() * PARTICLE_OFFSET_VARIANCE - PARTICLE_OFFSET_VARIANCE / 2,
+            velocity: this.random.next() * PARTICLE_VELOCITY_VARIANCE + PARTICLE_VELOCITY_BASIS
         });
     }
 
     public step() {
         const particles = this.state.particles;
+        const noise = this.noise;
 
         for (let i = particles.length - 1; i >= 0; i--) {
             const p = particles[i];
-            const theta = -1 * this.noise.eval(p.x, p.y, p.time) * Math.PI - Math.PI / 4;
+            const n = noise.eval(p.x + p.o, p.y + p.o, p.z);
+            const theta = -1 * n * Math.PI - PI1_4;
 
             p.x += Math.cos(theta) * p.velocity;
             p.y += Math.sin(theta) * p.velocity;
-            p.time += NOISE_Z_STEP;
+            p.z += NOISE_Z_STEP;
 
             if (p.x < 0 || p.x > 1 || p.y < 0 || p.y > 1) {
-                this.state.particles.splice(i, 1);
+                particles.splice(i, 1);
             }
         }
     }
