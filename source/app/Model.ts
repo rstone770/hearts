@@ -1,4 +1,4 @@
-import { Signal } from "@hearts/reactive/Signal";
+import { Observer, Subject } from "@hearts/reactive/Subject";
 
 export interface ModelState {
     likes: number;
@@ -10,16 +10,16 @@ const DEFAULT_STATE: ModelState = {
 
 export class Model {
     public state: ModelState;
-    public updated: Signal<Model, ModelState>;
+    public subject: Subject<ModelState>;
 
     public constructor(state?: Partial<ModelState>) {
         this.state = { ...DEFAULT_STATE, ...state };
-        this.updated = new Signal<Model, ModelState>(this);
+        this.subject = new Subject();
     }
 
     public update(state: Partial<ModelState>) {
         this.state = { ...this.state, ...state };
-        this.updated.notify(this.state);
+        this.subject.publish(this.state);
     }
 
     public like() {

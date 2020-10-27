@@ -1,8 +1,5 @@
-import { configure } from "./app/services";
+import { createFactory } from "./app/factory";
 
 export const mount = (container: HTMLElement) => {
-    const factory = configure(document);
-    const app = factory(container);
-
-    return app.mount();
+    createFactory(document)(container).mount();
 };

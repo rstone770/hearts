@@ -1,58 +1,54 @@
 import { DomHelpers } from "@hearts/dom/DomHelpers";
-import { Effect } from "@hearts/reactive/Effect";
+import { LifeCycle } from "@hearts/reactive/LifeCycle";
 import { Emitter } from "./Emitter/Emitter";
 import { Model, ModelState } from "./Model";
 import { template, View } from "./template";
 
 export class App {
     private container: HTMLElement;
-    private binding: Effect;
     private model: Model;
     private view: View;
     private emitter: Emitter;
 
     public constructor(
         $: DomHelpers,
-        emitterFactory: (canvas: HTMLCanvasElement) => Emitter,
+        lifecycle: LifeCycle,
+        emitterFactory: (canvas: HTMLCanvasElement, lifecycle: LifeCycle) => Emitter,
         container: HTMLElement
     ) {
         this.container = container;
-        this.binding = this.bind();
         this.model = new Model();
         this.view = template($);
-        this.emitter = emitterFactory(this.view.canvas);
+        this.emitter = emitterFactory(this.view.canvas, lifecycle);
+        this.bind(lifecycle);
     }
 
-    public mount() {
-        return this.binding.apply();
-    }
-
-    private bind() {
+    private bind(lifecycle: LifeCycle) {
         const onLike = () => {
             this.emitter.emit();
             this.model.like();
         };
 
-        const apply = () => {
-            this.model.updated.attach((e) => this.update(e.data));
+        const mount = () => {
+            this.model.subject.subscribe((e) => this.update(e));
 
             this.view.like.addEventListener("click", onLike);
             this.container.appendChild(this.view.root);
 
-            this.emitter.mount();
             this.update(this.model.state);
         };
 
-        const dispose = () => {
-            this.model.updated.clear();
+        const unmount = () => {
+            this.model.subject.clear();
 
             this.view.like.removeEventListener("click", onLike);
             this.container.removeChild(this.view.root);
-
-            this.emitter.unmount();
         };
 
-        return Effect.create(apply, dispose);
+        lifecycle.bind({
+            mount,
+            unmount
+        });
     }
 
     private update(state: ModelState) {

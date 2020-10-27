@@ -1,6 +1,6 @@
 import { DomHelpers } from "@hearts/dom/DomHelpers";
 import { imageFromSVGPath } from "@hearts/dom/images";
-import { Effect } from "@hearts/reactive/Effect";
+import { LifeCycle } from "@hearts/reactive/LifeCycle";
 import { FrameScheduler } from "@hearts/scheduling/frame";
 import { heart } from "../icons";
 import { Model } from "./Model";
@@ -10,7 +10,6 @@ const DRAW_Y_BASIS = -36;
 
 export class Emitter {
     private running: boolean = false;
-    private readonly binding: Effect;
     private readonly canvas: HTMLCanvasElement;
     private readonly context: CanvasRenderingContext2D | null;
     private readonly frame: FrameScheduler;
@@ -19,6 +18,7 @@ export class Emitter {
 
     public constructor(
         $: DomHelpers,
+        lifecycle: LifeCycle,
         frame: FrameScheduler,
         model: Model,
         canvas: HTMLCanvasElement
@@ -27,32 +27,27 @@ export class Emitter {
         this.frame = frame;
         this.icon = imageFromSVGPath($, heart.fill);
         this.context = this.canvas.getContext("2d");
-        this.binding = this.bind();
         this.model = model;
+        this.bind(lifecycle);
     }
 
     public emit() {
         this.model.emit();
     }
 
-    public mount() {
-        this.binding.apply();
-    }
-
-    public unmount() {
-        this.binding.dispose();
-    }
-
-    private bind() {
-        const apply = () => {
+    private bind(lifecycle: LifeCycle) {
+        const mount = () => {
             this.run();
         };
 
-        const dispose = () => {
+        const unmount = () => {
             this.stop();
         };
 
-        return Effect.create(apply, dispose);
+        lifecycle.bind({
+            mount,
+            unmount
+        });
     }
 
     private run() {
