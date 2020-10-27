@@ -1,5 +1,5 @@
 import { DomHelpers } from "@hearts/dom/DomHelpers";
-import { LifeCycle } from "@hearts/reactive/LifeCycle";
+import { Lifecycle } from "@hearts/lifecycle/Lifecycle";
 import { Emitter } from "./Emitter/Emitter";
 import { Model, ModelState } from "./Model";
 import { template, View } from "./template";
@@ -12,8 +12,8 @@ export class App {
 
     public constructor(
         $: DomHelpers,
-        lifecycle: LifeCycle,
-        emitterFactory: (canvas: HTMLCanvasElement, lifecycle: LifeCycle) => Emitter,
+        lifecycle: Lifecycle,
+        emitterFactory: (canvas: HTMLCanvasElement, lifecycle: Lifecycle) => Emitter,
         container: HTMLElement
     ) {
         this.container = container;
@@ -23,7 +23,7 @@ export class App {
         this.bind(lifecycle);
     }
 
-    private bind(lifecycle: LifeCycle) {
+    private bind(lifecycle: Lifecycle) {
         const onLike = () => {
             this.emitter.emit();
             this.model.like();
@@ -39,7 +39,7 @@ export class App {
         };
 
         const unmount = () => {
-            this.model.subject.clear();
+            this.model.subject.unbind();
 
             this.view.like.removeEventListener("click", onLike);
             this.container.removeChild(this.view.root);

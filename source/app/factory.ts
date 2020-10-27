@@ -1,7 +1,7 @@
 import { DomHelpers } from "@hearts/dom/DomHelpers";
+import { Lifecycle } from "@hearts/lifecycle/Lifecycle";
 import { PerlinNoise3D } from "@hearts/noise/PerlinNoise3D";
 import { LCG } from "@hearts/random/LCG";
-import { LifeCycle } from "@hearts/reactive/LifeCycle";
 import { frame } from "@hearts/scheduling/frame";
 import { schedule } from "@hearts/scheduling/schedule";
 import { App } from "./App";
@@ -12,9 +12,9 @@ export const createFactory = (document: Document) => {
     const $ = new DomHelpers(document);
     const noise = new PerlinNoise3D();
     const random = new LCG();
-    const lifecycle = new LifeCycle();
+    const lifecycle = new Lifecycle();
 
-    const emitterFactory = (canvas: HTMLCanvasElement, lifecycle: LifeCycle) => {
+    const emitterFactory = (canvas: HTMLCanvasElement, lifecycle: Lifecycle) => {
         return new Emitter($, lifecycle, frame, new EmitterModel(noise, random, schedule), canvas);
     };
 

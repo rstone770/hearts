@@ -21,7 +21,7 @@ export class Subject<TData = unknown> {
         };
     }
 
-    public clear() {
+    public unbind() {
         this.observers = [];
     }
 

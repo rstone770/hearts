@@ -1,6 +1,6 @@
 import { DomHelpers } from "@hearts/dom/DomHelpers";
 import { imageFromSVGPath } from "@hearts/dom/images";
-import { LifeCycle } from "@hearts/reactive/LifeCycle";
+import { Lifecycle } from "@hearts/lifecycle/Lifecycle";
 import { FrameScheduler } from "@hearts/scheduling/frame";
 import { heart } from "../icons";
 import { Model } from "./Model";
@@ -18,7 +18,7 @@ export class Emitter {
 
     public constructor(
         $: DomHelpers,
-        lifecycle: LifeCycle,
+        lifecycle: Lifecycle,
         frame: FrameScheduler,
         model: Model,
         canvas: HTMLCanvasElement
@@ -35,7 +35,7 @@ export class Emitter {
         this.model.emit();
     }
 
-    private bind(lifecycle: LifeCycle) {
+    private bind(lifecycle: Lifecycle) {
         const mount = () => {
             this.run();
         };
