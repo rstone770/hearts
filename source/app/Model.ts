@@ -1,4 +1,4 @@
-import { Observer, Subject } from "@hearts/reactive/Subject";
+import { Subject } from "@hearts/reactive/Subject";
 
 export interface ModelState {
     likes: number;
