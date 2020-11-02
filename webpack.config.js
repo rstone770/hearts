@@ -5,7 +5,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const HOT_TEMPLATE_FILENAME = path.resolve(__dirname, "webpack/index.html");
 const INPUT_FILENAME = path.resolve(__dirname, "source/main.ts");
-const OUTPUT_FILENAME = "hearts.js";
+const OUTPUT_FILE = "hearts";
 const OUTPUT_PATH = path.resolve(__dirname, "dist");
 
 const isDevelopment = (mode) => mode === "development";
@@ -26,7 +26,7 @@ module.exports = (env, argv) => {
     const plugins = () => {
         const results = [
             new MiniCssExtractPlugin({
-                filename: "[name].css"
+                filename: `${OUTPUT_FILE}.css`
             })
         ];
 
@@ -100,7 +100,7 @@ module.exports = (env, argv) => {
             plugins: [new TsconfigPathsPlugin()]
         },
         output: {
-            filename: OUTPUT_FILENAME,
+            filename: `${OUTPUT_FILE}.js`,
             path: OUTPUT_PATH,
             library: "Hearts"
         },
